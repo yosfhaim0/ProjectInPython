@@ -52,4 +52,4 @@ if __name__ == '__main__':
 
     text=urlToText("https://techcrunch.com/2022/09/14/google-cancels-half-the-projects-at-its-internal-rd-group-area-120/")
     import arrenmentString
-    arrenmentString.g(text,{})
+    arrenmentString.turnArrStringToTextWhitTranslate(text, {})

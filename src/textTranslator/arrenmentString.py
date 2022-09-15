@@ -55,24 +55,18 @@ def buildDomain(d):
         arr += [dom]
 
 
-def g(sourc, d, d2={}, nf="test.txt", whitLines=False):
-    if not d:
-        d = handleCommonWordEnglish("commonWordsEnglish.txt")
-    arr = buildDomain(d)
-
+def turnArrStringToTextWhitTranslate(sourc, nf="test.txt", whitLines=False):
     textWhitTrans = ""
     findAllReady = set()
     numOfTranslate=0
-    if isinstance(sourc, str):
-        sourc=sourc.split(" ")
     try:
         for i in sourc:
             textWhitTrans += i
             if not i in findAllReady:
                 regex = r'\b[A-Za-z_|\'|\-]+\b'
                 arstr = re.findall(regex, i)
-                if arstr and not arstr[0][0].isupper() and len(arstr[0]) > 2 and findIfInCommon(d, arstr[
-                    0]) and findIfInCommon(d2, arstr[0]):
+                if arstr and not arstr[0][0].isupper() and len(arstr[0]) > 2 and findIfInCommon(commonLeval2, arstr[
+                    0]) and findIfInCommon(commonLeval1, arstr[0]):
                     translate = traslate_word(arstr[0])
                     if translate and not i == translate and len(translate) > 2:
                         textWhitTrans += "= " + str(translate)
@@ -82,14 +76,7 @@ def g(sourc, d, d2={}, nf="test.txt", whitLines=False):
             if whitLines:
                 textWhitTrans += "\n"
     finally:
-        # Program to show various ways to read and
-        # write data in a file.
-        t = nf.split(".")
-        file1 = open(t[0] + "arrengment." + t[1], "w", encoding="utf-8")
 
-        # \n is placed to indicate EOL (End of Line)
-        file1.writelines(textWhitTrans)
-        file1.close()  # to change file access modes
         print("num Of Translate word : ",numOfTranslate)
         return textWhitTrans
 
@@ -112,21 +99,10 @@ def traslate_word(word):
         return translate.text
 
 
-def handelTextFile(f):
-    file1 = open(f, encoding="utf8")
-
-    t = file1.readlines()
-    p = ""
-    for i in t:
-        p += i
-    p = p.replace("\n", " ")
-    p = p.split(" ")
-
-    file1.close()
-    return p
 
 
-def handleCommonWordEnglish(cwe):
+
+def turnTextToSet(cwe):
     file1 = open(cwe, "r+")
     regex = r'\b\w+\b'
     fileOrder = re.findall(regex, str(file1.readlines()))
@@ -149,12 +125,16 @@ client = MongoClient(port=27017)
 database_name = "EnglishHebrew"
 db = client[database_name]
 translator = Translator()
+commonLeval1=turnTextToSet("C:\\Users\\yosef\\IdeaProjects\\englishLearning\\src\\textTranslator\\tenKcommonWord.txt")
+commonLeval2=turnTextToSet("C:\\Users\\yosef\\IdeaProjects\\englishLearning\\src\\textTranslator\\commonWordsEnglish.txt")
+
 # input = sys.argv[1]
 # output = g(input)
 # sys.stdout.flush()
 
 if __name__ == "__main__":
-    htf = handelTextFile("test.txt")
-    hcwe = handleCommonWordEnglish("commonWordsEnglish.txt")
-    ncwe = handleCommonWordEnglish("tenKcommonWord.txt")
-    g(htf, hcwe, ncwe, "test.txt")
+
+    htf = handelTextFile("textTranslator\\test.txt")
+    hcwe = turnTextToSet("textTranslator\\commonWordsEnglish.txt")
+    ncwe = turnTextToSet("textTranslator\\tenKcommonWord.txt")
+    turnArrStringToTextWhitTranslate(htf, hcwe, ncwe, "test.txt")
