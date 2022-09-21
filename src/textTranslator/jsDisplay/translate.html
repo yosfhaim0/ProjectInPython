@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script src="bundle.js"></script>
+<h1><span> translate Text </span> Samples </h1>
+<p>Intro/JavaScript</p>
+<article class="regular">
+    <h2>Textbox</h2>
+    <form id="formText" action="/cgi-bin/hello_get.cgi" method="get">
+        leave your text here:
+        <br>
+        <textarea id="textUnTrans" rows="5" cols="50" name="description">
+         </textarea><br>
+    </form>
+    <button id="myButton" onclick="translateMyText()" onmouseenter="translateMyText()">butten</button>
+    <h6 id="translateText"
+              rows="5" cols="33">
+    </h6>
+    <script src="main.js"></script>
+</article>
+</body>
+</html>

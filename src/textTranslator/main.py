@@ -1,3 +1,5 @@
+import pyttsx3 as pyttsx3
+
 import arrenmentString
 
 
@@ -53,6 +55,8 @@ x = input("a - input is location of txt file \n"
           "c - input is location of image\n"
           "d - input is location of dic whit png file for translate\n"
           "e - input string of text\n"
+          "f - input go out load \n"
+          "h - input Hebrew call in hebrew"
           "  - input in test.txt file\n")
 if x == "a":
     string = file2string(location)
@@ -63,6 +67,7 @@ if x == "a":
     creatFileFromString(location, textWhitTrans)
 if x == "b":
     text = handlUrl(location)
+    arr=text.split(" ")
     textWhitTrans = arrenmentString.turnArrStringToTextWhitTranslate(arr)
     creatFileFromString("test.txt", textWhitTrans)
 
@@ -75,7 +80,41 @@ if x == "e":
     textWhitTrans = arrenmentString.turnArrStringToTextWhitTranslate(arr)
     creatFileFromString("test.txt", textWhitTrans)
 
+if x=="f":
+    text = handlUrl(location)
+    speaker = pyttsx3.init()
+    speaker.setProperty("rate",200)
+    speaker.say(text)
+    speaker.runAndWait()
+
+    while True:
+        x= input("s - stop\n is - increase speed \n ds decrement speed")
+        if x== "is":
+            speaker.stop()
+            break
+        if x=="is":
+            rate=speaker.getProperty("rate")
+            rate+=50
+            speaker.setProperty("rate",rate)
+        if x=="ds":
+            rate=speaker.getProperty("rate")
+            rate-=50
+            speaker.setProperty("rate",rate)
 if x=="":
     arr = file2string("test.txt").split(" ")
     textWhitTrans = arrenmentString.turnArrStringToTextWhitTranslate(arr)
-    creatFileFromString("test.txt", textWhitTrans)
+    tex=""
+    for i in textWhitTrans:
+        if i=="�":
+            tex+="'"
+        else:
+            tex+=i
+    creatFileFromString("test.txt", tex)
+if x=="h":
+    string = file2string("test.txt")
+    speaker = pyttsx3.init()
+    speaker.setProperty("rate",200)
+    speaker.say(string)
+    speaker.runAndWait()
+
+print("finish!!")
